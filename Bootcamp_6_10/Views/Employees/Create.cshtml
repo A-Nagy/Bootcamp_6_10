@@ -1,0 +1,51 @@
+﻿@model Employee
+@{
+    ViewData["Title"] = "Create";
+       <script src="~/lib/jquery/dist/jquery.min.js"></script>
+       <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+       <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+}
+
+<h1>Add Employee</h1>
+
+
+
+<form action="Create" method="post">
+    <div class="mb-3">
+         <lable for="Name">Name : </lable>
+        <input type="text" class="form-control" id="Name" name="Name" placeholder="Enter Your Name"  />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    
+    <div class="mb-3">
+         <lable for="Email">Email : </lable>
+        <input type="email" class="form-control" id="Email" name="Email" placeholder="Enter Your Email"  />
+        <span asp-validation-for="Email"  class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+         <lable for="Phone">Phone : </lable>
+        <input type="tel" class="form-control" id="Phone" name="Phone" placeholder="Enter Your Phone"  />
+        <span asp-validation-for="Phone"  class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+         <lable for="City">City : </lable>
+        <input type="text" class="form-control" id="City" name="City" placeholder="Enter Your City"  />
+         
+    </div>
+
+    <div class="mb-3">
+         <lable for="Address">Address : </lable>
+        <input type="text" class="form-control" id="Address" name="Address" placeholder="Enter Your Address"  />
+      
+    </div>
+
+    <button type="submit" class="btn btn-primary"> Save </button>
+    <a asp-action="Index" class="btn btn-secondary">Back</a>
+    <div asp-validation-summary="All" class="text-danger"></div>
+</form>
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}

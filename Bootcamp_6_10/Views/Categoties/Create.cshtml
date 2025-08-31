@@ -1,0 +1,19 @@
+﻿@model Categoty
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Add Category</h1>
+<form asp-action="Create" method="post">
+    <div class="form-floating mb-3">
+         <lable for="Name">Name : </lable>
+        <input type="text" class="form-control" itemid="Name" name="name" placeholder="Enter Your Name"  />
+    </div>
+    <div class="form-floating mb-3">
+         <lable for="Description">Description : </lable>
+         <textarea id="Description" class="form-control"  name="Description" placeholder="Enter what you want" ></textarea>
+     </div>
+    <button type="submit" class="btn btn-primary"> Save </button>
+    <a asp-action="Index" class="btn btn-secondary">Back</a>
+</form>
+

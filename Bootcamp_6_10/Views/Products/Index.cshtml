@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Bootcamp_6_10.Models.Product>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Products</h1>
+
+<partial name="_NotificationsPartial" />
+ 
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table table-dark table-border">
+    <thead>
+        <tr>
+            <th>
+                ProductName 
+            </th>
+            <th>
+                ProductDescription 
+            </th>
+            <th>
+                 ProductPrice 
+            </th>
+            <th>
+               ProductQTY 
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                  @item.ProductName 
+            </td>
+            <td>
+                @item.ProductDescription
+            </td>
+            <td>
+               @item.ProductPrice
+            </td>
+            <td>
+                @item.ProductQTY
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ProductId"    class="btn btn-outline-warning">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ProductId" class="btn btn-outline-danger">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ProductId"  class="btn btn-outline-success">Delete </a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
