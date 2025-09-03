@@ -12,6 +12,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
 
 //builder.Services.AddTransient(typeof(IRepository<>),typeof(MainRepository<>));
 builder.Services.AddScoped(typeof(IRepository<>), typeof(MainRepository<>));
+builder.Services.AddScoped<IRepoProduct, RepoProduct>();
 
 var app = builder.Build();
 

@@ -9,12 +9,12 @@ namespace Bootcamp_6_10.Controllers
 {
     public class CategotiesController : Controller
     {
-        private readonly ApplicationDbContext _context;
+      //  private readonly ApplicationDbContext _context;
 
         private readonly IRepository<Categoty> _repository;
         public CategotiesController(ApplicationDbContext context, IRepository<Categoty> repository)
         {
-            _context = context; 
+        //    _context = context; 
             _repository = repository;
         }
         public IActionResult Index()
@@ -23,20 +23,20 @@ namespace Bootcamp_6_10.Controllers
             return View(categories);
         }
 
-        [HttpGet]
-        public IActionResult GetAllCategory()
-        {
-            IEnumerable<CategoryDto> categories = _context.Categoties.Include(c=>c.Products)
-                                                                     .AsNoTracking()
-                                                                     .Select(x => new CategoryDto
-                                                                     {
-                                                                        Id = x.Id,
-                                                                        Name = x.Name,
-                                                                        Count = x.Products.Count
-                                                                     })
-                                                                     .ToList();
-            return Ok(categories);
-        }
+        //[HttpGet]
+        //public IActionResult GetAllCategory()
+        //{
+        //    IEnumerable<CategoryDto> categories = _context.Categoties.Include(c=>c.Products)
+        //                                                             .AsNoTracking()
+        //                                                             .Select(x => new CategoryDto
+        //                                                             {
+        //                                                                Id = x.Id,
+        //                                                                Name = x.Name,
+        //                                                                Count = x.Products.Count
+        //                                                             })
+        //                                                             .ToList();
+        //    return Ok(categories);
+        //}
 
 
         [HttpGet]
