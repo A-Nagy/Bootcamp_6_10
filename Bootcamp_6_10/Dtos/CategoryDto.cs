@@ -1,0 +1,9 @@
+﻿namespace Bootcamp_6_10.Dtos
+{
+    public class CategoryDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int Count { get; set; }
+    }
+}

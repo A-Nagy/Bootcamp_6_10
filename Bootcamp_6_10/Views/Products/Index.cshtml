@@ -26,7 +26,8 @@
             <th>
                ProductQTY 
             </th>
-            <th></th>
+            <th>Category </th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -44,6 +45,7 @@
             <td>
                 @item.ProductQTY
             </td>
+            <td>@item.Categoty.Name</td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ProductId"    class="btn btn-outline-warning">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.ProductId" class="btn btn-outline-danger">Details</a> |

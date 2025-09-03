@@ -12,5 +12,8 @@ namespace Bootcamp_6_10.Models
         [DisplayAttribute(Name ="Describ")]
         public string? Description { get; set; }
 
+       
+        public ICollection<Product>? Products { get; set; }
+
     }
 }

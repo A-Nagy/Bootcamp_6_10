@@ -1,28 +1,50 @@
-﻿using System;
+﻿using Bootcamp_6_10.Data;
+using Bootcamp_6_10.Dtos;
+using Bootcamp_6_10.Models;
+using Bootcamp_6_10.Repository.Base;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis.Options;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Bootcamp_6_10.Data;
-using Bootcamp_6_10.Models;
 
 namespace Bootcamp_6_10.Controllers
 {
     public class ProductsController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public ProductsController(ApplicationDbContext context)
+        private readonly IRepository<Product> _repository;
+        public ProductsController(ApplicationDbContext context , IRepository<Product> repository)
         {
             _context = context;
+            _repository = repository;
         }
 
         // GET: Products
-        public async Task<IActionResult> Index()
+        public IActionResult  Index()
         {
-            return View(await _context.Products.ToListAsync());
+            IEnumerable<Product> products = _context.Products.Include(p => p.Categoty).ToList();
+            return View(products);
+        }
+
+        public IActionResult GetAllProduct()
+        {
+            IEnumerable<ProductDto> products = _context.Products.Include(p => p.Categoty)
+                                                             .AsNoTracking()
+                                                             .Select(p => new ProductDto
+                                                             {
+                                                                 ProductId = p.ProductId,
+                                                                 ProductName = p.ProductName,
+                                                                 ProductDescription = p.ProductDescription,
+                                                                 ProductPrice = p.ProductPrice,
+                                                                 ProductQTY = p.ProductQTY,
+                                                                 CategotyId = p.CategotyId,
+                                                                 CategotyName = p.Categoty.Name
+                                                             }).ToList();
+            return Ok(products);
         }
 
         // GET: Products/Details/5
@@ -43,10 +65,19 @@ namespace Bootcamp_6_10.Controllers
             return View(product);
         }
 
+        private void CreateSelectList() 
+        {
+
+            IEnumerable<Categoty> categoties = _context.Categoties.ToList(); 
+            SelectList selectlist = new SelectList(categoties, "Id", "Name", 0);
+            ViewBag.categoties = selectlist;
+        }
+
         // GET: Products/Create
         public IActionResult Create()
         {
-            return View();
+            CreateSelectList();
+             return View();
         }
 
         // POST: Products/Create
@@ -54,12 +85,11 @@ namespace Bootcamp_6_10.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductId,ProductName,ProductDescription,ProductPrice,ProductQTY")] Product product)
+        public async Task<IActionResult> Create([Bind("ProductId,ProductName,ProductDescription,ProductPrice,ProductQTY,CategotyId")] Product product)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(product);
-                await _context.SaveChangesAsync();
+                _repository.Insert(product);
                 TempData["Create"] = "Products Added SuccessFully";
                 return RedirectToAction(nameof(Index));
             }
@@ -69,6 +99,8 @@ namespace Bootcamp_6_10.Controllers
         // GET: Products/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            CreateSelectList();
+
             if (id == null)
             {
                 return NotFound();
@@ -87,7 +119,7 @@ namespace Bootcamp_6_10.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductId,ProductName,ProductDescription,ProductPrice,ProductQTY")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductId,ProductName,ProductDescription,ProductPrice,ProductQTY,CategotyId")] Product product)
         {
             if (id != product.ProductId)
             {
@@ -98,8 +130,7 @@ namespace Bootcamp_6_10.Controllers
             {
                 try
                 {
-                    _context.Update(product);
-                    await _context.SaveChangesAsync();
+                   _repository.Update(product);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -144,12 +175,9 @@ namespace Bootcamp_6_10.Controllers
         {
             var product = await _context.Products.FindAsync(id);
             if (product != null)
-            {
-                _context.Products.Remove(product);
+            { _repository.Delete(product);
+                TempData["Remove"] = "Removed SuccessFully";
             }
-
-            await _context.SaveChangesAsync();
-            TempData["Remove"] = "Removed SuccessFully";
             return RedirectToAction(nameof(Index));
         }
 

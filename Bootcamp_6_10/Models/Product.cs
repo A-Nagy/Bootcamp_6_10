@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Bootcamp_6_10.Models
 {
@@ -12,6 +13,11 @@ namespace Bootcamp_6_10.Models
         public string? ProductDescription { get; set; }
     
         public double? ProductPrice { get; set; }
+      
+        public int CategotyId { get; set; }
+      
+        [ForeignKey("CategotyId")]        
+        public Categoty? Categoty { get; set; }
 
         public int? ProductQTY { get; set; }
 

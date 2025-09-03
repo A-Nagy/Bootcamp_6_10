@@ -1,4 +1,6 @@
 using Bootcamp_6_10.Data;
+using Bootcamp_6_10.Repository;
+using Bootcamp_6_10.Repository.Base;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +10,8 @@ builder.Services.AddControllersWithViews();
 var connectionstring = builder.Configuration.GetConnectionString("DefualtConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionstring));
 
+//builder.Services.AddTransient(typeof(IRepository<>),typeof(MainRepository<>));
+builder.Services.AddScoped(typeof(IRepository<>), typeof(MainRepository<>));
 
 var app = builder.Build();
 
@@ -28,6 +32,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Employees}/{action=Login}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

@@ -29,6 +29,18 @@
                 <span asp-validation-for="ProductPrice" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="CategotyId" class="control-label"></label>
+                <select class="form-control" asp-for="CategotyId" asp-items="@ViewBag.categoties">
+                   <option disabled selected value="0">Selecct Category</option>
+                @*     <option value="27">Electronics</option>
+                   <option value="28">Clothing</option>
+                   <option value="29">Books</option>
+                   <option value="30">Home & Kitchen</option>
+                   <option value="31">Toys & Games</option> *@
+              </select>
+                 <span asp-validation-for="CategotyId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="ProductQTY" class="control-label"></label>
                 <input asp-for="ProductQTY" class="form-control" />
                 <span asp-validation-for="ProductQTY" class="text-danger"></span>
